@@ -23,9 +23,8 @@ public class Main extends Application implements EventHandler {
     private Menu menCompetencia1, menCompetencia2, menSalir;
     private MenuItem itnMemorama, itmTerminar, itmPractica2;
     private Scene escena;
-
     private ToolBar tlbMenu;
-    private Button btnToolbar1;
+    private Button btnToolbar1, btnToolbar2;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -40,7 +39,8 @@ public class Main extends Application implements EventHandler {
         primaryStage.addEventHandler(WindowEvent.WINDOW_HIDING,this);
         //primaryStage.show();
 
-        new Memorama();
+        new Taquimecanografo();
+        //new Memorama();
     }
 
     private void CrearUI() {
@@ -75,6 +75,9 @@ public class Main extends Application implements EventHandler {
         btnToolbar1 = new Button();
         btnToolbar1.setOnAction(event -> opcionMenu(1));
         btnToolbar1.setPrefSize(35,35);
+        btnToolbar2 = new Button();
+        btnToolbar2.setOnAction(event -> opcionMenu(2));
+        btnToolbar2.setPrefSize(35,35);
 
         //Asignamos la imagen  al boton dentro del toolbar
         Image img = new Image("sample/assets/game.png");
@@ -83,12 +86,19 @@ public class Main extends Application implements EventHandler {
         imv.setPreserveRatio(true);
         btnToolbar1.setGraphic(imv);
 
-        tlbMenu.getItems().add(btnToolbar1);
+        Image img2 = new Image("sample/assets/mecanografia.png");
+        ImageView imv2 = new ImageView(img2);
+        imv2.setFitHeight(35);
+        imv2.setPreserveRatio(true);
+        btnToolbar2.setGraphic(imv2);
+
+        tlbMenu.getItems().addAll(btnToolbar1, btnToolbar2);
 
         vPrincipal = new VBox();
         vPrincipal.getChildren().addAll(mnbPrincipal, tlbMenu);
 
         escena = new Scene(vPrincipal);
+        escena.getStylesheets().add("sample/css/main_styles.css");
 
 
     }

@@ -1,0 +1,38 @@
+.root{
+    -fx-background-image: url("/sample/assets/Fondo.jpg"), url("/sample/assets/Logo.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, 512 512;
+    -fx-background-position: center;
+}
+
+.menu-bar{
+    -fx-background-color: #17CAE7;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+.menu-bar .label{
+    -fx-text-fill: black;
+}
+
+.menu:hover{
+    -fx-background-color: white;
+}
+
+.menu-item .label{
+    -fx-text-fill: black;
+}
+
+.menu-item:hover{
+    -fx-background-color: #17CAE7;
+}
+
+.tool-bar{
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+.tool-bar .button{
+    -fx-background-color: #17CAE7;
+}
