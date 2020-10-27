@@ -159,7 +159,7 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
                         txtContenido.setText(read);
                         txtEscritura.setEditable(true);
                         txtEscritura.setText("");
-                        contWords = 0; contError = 0;
+                        contWords = 0; contError = 0; numChar = 0;
                         numPalabrasTXT();
 
                         if (timer.isRunning()) {
