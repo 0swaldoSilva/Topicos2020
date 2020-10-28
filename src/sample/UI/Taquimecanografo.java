@@ -58,6 +58,7 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
 
     //Detectar errores, no palabras...
     private int contPalabras = 0, contWords = 0, contError = 0, numChar = 0, cont = 0;
+    private String code;
     private Label lblPalabras, lblcontWords, lblError;
     private File tempFile;
     private BufferedWriter bw;
@@ -170,13 +171,7 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
                         actuLabel();
                         timer.start();
                     }
-                }catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error de entrada/salida");
-                    alert.setHeaderText("Hubo un problema con la elección del archivo");
-                    alert.setContentText("Por favor vuelva a intentarlo.");
-                    alert.showAndWait();
-                }
+                }catch (Exception e) {}
                 break;
         }
     }
@@ -316,6 +311,9 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
             case "TAB":
                 if (numChar > 0) {
                     arrBtnTeclado2[0].setStyle("-fx-background-color: #FE9618;");
+                }else{
+                    event.consume();
+                    arrBtnTeclado2[0].setStyle("-fx-background-color: #FE9618;");
                 }
                 break;
             case "Q":
@@ -443,9 +441,48 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
             case "LESS":
                 arrBtnTeclado5[4].setStyle("-fx-background-color: #FE9618;");
                 break;
+            case "DELETE":
+            case "HOME":
+            case "END":
+            case "LEFT":
+            case "RIGHT":
+            case "UP":
+            case "DOWN":
+                event.consume();
+                break;
         }
 
         numWordWrite();
+
+        txtEscritura.setTextFormatter(new TextFormatter<String>(
+                change -> change.getControlNewText().length() < txtContenido.getText().length() ? change : null));
+
+        code = event.getCode().toString();
+
+        if(code != "SHIFT" && code != "CONTROL" && code !="ALT" && code != "ALT_GRAPH"
+                && code != "CAPS" && code != "BACK_SPACE" && code != "LEFT" && code != "RIGHT"
+                && code != "UP" && code != "DOWN"  && code != "DELETE" && code != "HOME"
+                && code != "END" && code != "PAGE_UP" && code != "PAGE_DOWN" && code != "PRINTSCREEN"
+                && code != "NUM_LOCK" && code != "WINDOWS" && code != "ESCAPE" && contWords >= 1) {
+            try {
+                if (txtEscritura.getText().charAt(numChar) != txtContenido.getText().charAt(numChar)) {
+                    contError++;
+                    lblError.setText("Número de errores: " + contError);
+                }
+                if(numChar >= 0 && numChar < txtContenido.getText().length()) {
+                    numChar++;
+                }
+            }catch (Exception e){}
+        }
+        else{
+            if(numChar > 0) {
+                if (code == "BACK_SPACE" && numChar >= 1) {
+                    contError++;
+                    lblError.setText("Número de errores: " + contError);
+                }
+                numChar--;
+            }
+        }
 
     }
 
@@ -631,65 +668,36 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
 
         numWordWrite();
 
-        txtEscritura.setTextFormatter(new TextFormatter<String>(
-            change -> change.getControlNewText().length() < txtContenido.getText().length() ? change : null));
-
-        String code = event.getCode().toString();
-
-        if(code != "SHIFT" && code != "CONTROL" && code !="ALT" && code != "ALT_GRAPH"
-                && code != "CAPS" && code != "BACK_SPACE" && code != "LEFT" && code != "RIGHT"
-                && code != "UP" && code != "DOWN"  && code != "DELETE" && code != "HOME"
-                && code != "END" && code != "PAGE_UP" && code != "PAGE_DOWN" && code != "PRINTSCREEN"
-                && code != "NUM_LOCK" && code != "WINDOWS" && code != "ESCAPE" && contWords >= 1) {
-            try {
-                if (txtEscritura.getText().charAt(numChar) != txtContenido.getText().charAt(numChar)) {
-                    contError++;
-                    lblError.setText("Número de errores: " + contError);
+        if(txtEscritura.getText().length() == (txtContenido.getText().length() - 1)){
+            for (int i = 0; i < (txtContenido.getText().length() - 1); i++){
+                if(txtEscritura.getText().charAt(i) != txtContenido.getText().charAt(i)){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Tienes un error");
+                    alert.setHeaderText("Revisa el texto, debe haber algún error.");
+                    alert.showAndWait();
+                    cont = 0;
+                    break;
                 }
-                if(numChar >= 0 && numChar < txtContenido.getText().length()) {
-                    numChar++;
-                }
-            }catch (Exception e){}
-            if(txtEscritura.getText().length() == (txtContenido.getText().length() - 1)){
-                for (int i = 0; i < (txtContenido.getText().length() - 1); i++){
-                    if(txtEscritura.getText().charAt(i) != txtContenido.getText().charAt(i)){
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Tienes un error");
-                        alert.setHeaderText("Revisa el texto, debe haber algún error.");
+                else{
+                    cont++;
+                    if(cont == (txtContenido.getText().length() - 1)){
+                        timer.stop();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Práctica concluida");
+                        alert.setHeaderText("Has terminado la práctica, felicidades.");
+                        alert.setContentText("Total de errores: "+ contError +
+                                "\nHas concluido en un tiempo igual a: " + (minutero<10?"0":"")+minutero +
+                                ":"+(segundero<10?"0":"")+segundero);
                         alert.showAndWait();
-                        cont = 0;
+                        txtContenido.setText("Elige un archivo de texto...");
+                        txtEscritura.setEditable(false);
+                        txtEscritura.setText("");
+                        cont = 0; contWords = 0; contPalabras = 0; contError = 0; numChar = 0;
+                        segundero = 0; minutero = 0;
+                        actuLabel();
                         break;
                     }
-                    else{
-                        cont++;
-                        if(cont == (txtContenido.getText().length() - 1)){
-                            timer.stop();
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Práctica concluida");
-                            alert.setHeaderText("Has terminado la práctica, felicidades.");
-                            alert.setContentText("Total de errores: "+ contError +
-                                    "\nHas concluido en un tiempo igual a: " + (minutero<10?"0":"")+minutero +
-                                    ":"+(segundero<10?"0":"")+segundero);
-                            alert.showAndWait();
-                            txtContenido.setText("Elige un archivo de texto...");
-                            txtEscritura.setEditable(false);
-                            txtEscritura.setText("");
-                            cont = 0; contWords = 0; contPalabras = 0; contError = 0; numChar = 0;
-                            segundero = 0; minutero = 0;
-                            actuLabel();
-                            break;
-                        }
-                    }
                 }
-            }
-        }
-        else{
-            if(numChar > 0) {
-                if (code == "BACK_SPACE" && numChar >= 1) {
-                    contError++;
-                    lblError.setText("Número de errores: " + contError);
-                }
-                numChar--;
             }
         }
 
