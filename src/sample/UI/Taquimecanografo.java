@@ -1,7 +1,6 @@
 package sample.UI;
 
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -18,9 +17,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.io.*;
-import java.nio.file.Path;
 
 public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
 
@@ -309,12 +306,10 @@ public class Taquimecanografo extends Stage implements EventHandler <KeyEvent>{
                 arrBtnTeclado1[13].setStyle("-fx-background-color: #FE9618;");
                 break;
             case "TAB":
-                if (numChar > 0) {
-                    arrBtnTeclado2[0].setStyle("-fx-background-color: #FE9618;");
-                }else{
+                if (numChar <= 0) {
                     event.consume();
-                    arrBtnTeclado2[0].setStyle("-fx-background-color: #FE9618;");
                 }
+                arrBtnTeclado2[0].setStyle("-fx-background-color: #FE9618;");
                 break;
             case "Q":
                 arrBtnTeclado2[1].setStyle("-fx-background-color: #FE9618;");

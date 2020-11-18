@@ -15,9 +15,11 @@ public class Conexion {
     public static void crearConexion(){
 
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            DriverManager.getConnection("jdbc:mysql://"+server+":3306/"+db, user, pwd);
-        }catch (Exception e){e.printStackTrace();}
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://"+server+":3306/"+db, user, pwd);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

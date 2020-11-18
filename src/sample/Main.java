@@ -13,7 +13,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import sample.UI.Dashboard;
 import sample.UI.Taquimecanografo;
+import sample.models.Conexion;
 
 public class Main extends Application implements EventHandler {
 
@@ -21,7 +23,7 @@ public class Main extends Application implements EventHandler {
 
     private MenuBar mnbPrincipal;
     private Menu menCompetencia1, menCompetencia2, menSalir;
-    private MenuItem itnMemorama, itmTerminar, itmPractica2;
+    private MenuItem itmMemorama, itmTerminar, itmRestaurante, itmPractica2;
     private Scene escena;
     private ToolBar tlbMenu;
     private Button btnToolbar1, btnToolbar2;
@@ -37,10 +39,12 @@ public class Main extends Application implements EventHandler {
         primaryStage.setScene(escena);
         //primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.addEventHandler(WindowEvent.WINDOW_HIDING,this);
-        //primaryStage.show();
+        primaryStage.show();
 
-        new Taquimecanografo();
+        Conexion.crearConexion();
+        //new Taquimecanografo();
         //new Memorama();
+
     }
 
     private void CrearUI() {
@@ -56,17 +60,21 @@ public class Main extends Application implements EventHandler {
         mnbPrincipal.getMenus().addAll(menCompetencia1,menCompetencia2,menSalir);
 
         //Creamos el menuItem para el memorama de la primer competencia
-        itnMemorama = new MenuItem("Memorama");
-        itnMemorama.setOnAction(event -> opcionMenu(1));
+        itmMemorama = new MenuItem("Memorama");
+        itmMemorama.setOnAction(event -> opcionMenu(1));
 
         itmPractica2 = new MenuItem("Taquimecanógrafo");
         itmPractica2.setOnAction(event -> opcionMenu(2));
+
+        itmRestaurante = new MenuItem("Restaurante");
+        itmRestaurante.setOnAction(event -> opcionMenu(3));
 
         itmTerminar = new MenuItem("Hasta pronto :)");
         itmTerminar.setOnAction(event -> System.exit(0));
 
         //Cargar los item Memorama al menu "competencia 1"
-        menCompetencia1.getItems().addAll(itnMemorama, itmPractica2);
+        menCompetencia1.getItems().addAll(itmMemorama, itmPractica2);
+        menCompetencia2.getItems().addAll(itmRestaurante);
         menSalir.getItems().add(itmTerminar);
 
 
@@ -106,9 +114,9 @@ public class Main extends Application implements EventHandler {
     private void opcionMenu(int opc) {
 
         switch (opc){
-            case 1: new Memorama(); break;
+            case 1: new Memorama();         break;
             case 2: new Taquimecanografo(); break;
-            case 3: break;
+            case 3: new Dashboard();      break;
         }
     }
 

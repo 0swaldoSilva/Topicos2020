@@ -1,0 +1,19 @@
+.root{
+  -fx-background-image: url("https://images.squarespace-cdn.com/content/v1/5aa5a05cfcf7fd70d5c3b558/1521246372456-TKBYGGL86AFJZZZU8O6H/ke17ZwdGBToddI8pDm48kBlUQO3gphSrXeDA1uWYKvF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UdRLF2h9kRJersF7qISFLg6HSFUeNwKJWO9ldaUwusL2H3bqxw7fF48mhrq5Ulr0Hg/Artboard+2+copy+2%402x.png?format=2500w");
+  -fx-background-repeat: no-repeat;
+  -fx-background-size: cover;
+  -fx-background-position: center;
+}
+
+.button {
+  -fx-background-color: #FF5034;
+  -fx-border-color: black;
+  -fx-border-width: 4;
+  -fx-padding: 120px 120px;
+  -fx-font-family: Arial, Helvetica, sans-serif;
+  -fx-text-align: center;
+  -fx-text-fill: white;
+  -fx-font-size: 42px;
+  -fx-cursor: pointer;
+}
+
